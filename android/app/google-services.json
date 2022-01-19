@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "399105775956",
+    "project_id": "bubt-flutter-app",
+    "storage_bucket": "bubt-flutter-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399105775956:android:f3aa01ff224d5f842a10c1",
+        "android_client_info": {
+          "package_name": "com.example.bubt_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "399105775956-l2h19mc13e5qsr9jm689b0kio9d2vpe2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7BuMYUoCnoBJkwp35Z_-270JSS4--XaU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "399105775956-l2h19mc13e5qsr9jm689b0kio9d2vpe2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
