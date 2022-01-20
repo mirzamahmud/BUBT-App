@@ -176,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 50.h, minWidth: MediaQuery.of(context).size.width.w,
                     color: Colors.green[900],
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                    onPressed: (){
+                    onPressed: () async {
 
                       if(_formKey.currentState!.validate())
                       {

@@ -1,8 +1,10 @@
 import 'package:bubt_app/screens/image_upload_screen.dart';
 import 'package:bubt_app/widgets/register_bottom_widget.dart';
 import 'package:bubt_app/widgets/register_top_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -20,6 +22,65 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  registerFunction() async{
+
+    try {
+
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+
+        email: _emailController.text.toString(),
+        password: _passwordController.text.toString()
+      );
+
+      var authCredential = userCredential.user;
+
+      if(authCredential!.uid.isNotEmpty)
+      {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const ImageUploadScreen()));
+      }
+      else
+      {
+        Fluttertoast.showToast(
+
+          msg: "You don't fill up all sections",
+          gravity: ToastGravity.BOTTOM,
+          textColor: Colors.black, fontSize: 16.sp,
+          toastLength: Toast.LENGTH_SHORT
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+
+      if (e.code == 'weak-password') {
+
+        Fluttertoast.showToast(
+
+          msg: "Password is too short", 
+          gravity: ToastGravity.BOTTOM,
+          textColor: Colors.black, fontSize: 16.sp,
+          toastLength: Toast.LENGTH_SHORT
+        );
+      } else if (e.code == 'email-already-in-use') {
+
+        Fluttertoast.showToast(
+
+          msg: "This account is already exist", 
+          gravity: ToastGravity.BOTTOM,
+          textColor: Colors.black, fontSize: 16.sp,
+          toastLength: Toast.LENGTH_SHORT
+        );
+      }
+    } catch (e) {
+
+      Fluttertoast.showToast(
+
+        msg: "Account Created", 
+        gravity: ToastGravity.BOTTOM,
+        textColor: Colors.black, fontSize: 16.sp,
+        toastLength: Toast.LENGTH_SHORT
+      );
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -82,9 +143,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                           validator: (value){
 
-                            if(value!.isEmpty)
+                            if(value!.isEmpty || !value.contains("@"))
                             {
-                              return "Please, enter valid email";
+                              return "Please, enter your/University valid email";
                             }
 
                             return null;
@@ -156,11 +217,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     elevation: 0,
                     color: Colors.amberAccent[400],
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                    onPressed: (){
+                    onPressed: () {
 
                       if(_formKey.currentState!.validate())
                       {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ImageUploadScreen()));
+                        registerFunction();
                       }
                     },
                     child: Text(

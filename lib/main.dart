@@ -7,6 +7,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 void main() async
 {
 
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const BUBT());
+
   SystemChrome.setSystemUIOverlayStyle(
 
     SystemUiOverlayStyle(
@@ -17,11 +21,6 @@ void main() async
       systemNavigationBarIconBrightness: Brightness.dark,
     )
   );
-
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-  runApp(const BUBT());
 }
 
 class BUBT extends StatelessWidget {

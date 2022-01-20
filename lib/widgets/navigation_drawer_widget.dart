@@ -1,4 +1,6 @@
 import 'package:bubt_app/screens/home_screen.dart';
+import 'package:bubt_app/screens/start_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -112,13 +114,20 @@ class NavigationDrawerWidget extends StatelessWidget {
     );
   }
 
-  void selectedItem(BuildContext context, int index) {
+  Future<void> selectedItem(BuildContext context, int index) async {
 
     switch (index){
 
       case 0:
         Navigator.pop(context);
         Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+        break;
+
+      case 7:
+
+        await FirebaseAuth.instance.signOut();
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
         break;
     }
   }
