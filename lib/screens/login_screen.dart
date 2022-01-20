@@ -1,8 +1,10 @@
 import 'package:bubt_app/screens/image_upload_screen.dart';
 import 'package:bubt_app/widgets/login_bottom_widget.dart';
 import 'package:bubt_app/widgets/login_top_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,6 +22,48 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  // firebase
+  final _auth = FirebaseAuth.instance;
+
+  // login function
+  void loginUser(String email, String password) async{
+
+    if(_formKey.currentState!.validate())
+    {
+
+      await _auth.signInWithEmailAndPassword(
+
+        email: email, 
+        password: password
+
+      ).then((uid) => {
+
+        Fluttertoast.showToast(
+
+          msg: "Login Successfully", 
+          backgroundColor: Colors.white24, 
+          textColor: Colors.black, 
+          fontSize: 14.sp,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM
+        ),
+
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const ImageUploadScreen()))
+      }).catchError((e){
+
+        Fluttertoast.showToast(
+
+          msg: e!.message,
+          backgroundColor: Colors.white24,
+          textColor: Colors.black,
+          fontSize: 14.sp,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +103,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           controller: _emailController,
                           cursorColor: Colors.black,
-                          style: GoogleFonts.nunito(color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          style: GoogleFonts.nunito(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w500),
                           decoration: InputDecoration(
 
                             border: OutlineInputBorder(
@@ -83,9 +129,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           validator: (value){
 
-                            if(value!.isEmpty)
+                            if(value!.isEmpty || !value.contains("@") || !RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value))
                             {
-                              return "Please, enter valid email";
+                              return "Please, enter your valid email";
                             }
 
                             return null;
@@ -99,7 +145,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passwordController,
                           obscureText: _isObscure,
                           cursorColor: Colors.black,
-                          style: GoogleFonts.nunito(color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+                          keyboardType: TextInputType.text,
+                          style: GoogleFonts.nunito(color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w500),
                           decoration: InputDecoration(
                             
                             border: OutlineInputBorder(
@@ -163,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           "Forgot Password?",
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.nunito(color: Colors.red, fontSize: 16.sp, fontWeight: FontWeight.normal),
+                          style: GoogleFonts.nunito(color: Colors.red, fontSize: 14.sp, fontWeight: FontWeight.normal),
                         ),
                       )
                     ],
@@ -176,12 +223,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 50.h, minWidth: MediaQuery.of(context).size.width.w,
                     color: Colors.green[900],
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                    onPressed: () async {
+                    onPressed: () {
 
-                      if(_formKey.currentState!.validate())
-                      {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ImageUploadScreen()));
-                      }
+                      loginUser(_emailController.text.toString(), _passwordController.text.toString());
                     },
                     child: Text(
 
