@@ -9,7 +9,6 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   const NavigationDrawerWidget({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
 
@@ -18,81 +17,85 @@ class NavigationDrawerWidget extends StatelessWidget {
       child: Material(
 
         color: const Color(0xff1e3799),
-        child: ListView(
+        
+        child: SafeArea(
 
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          children: [
-
-            SizedBox(height: 50.h),
-
-            buildMenuItem(
-
-              text: "Home",
-              icon: Icons.home,
-              onClicked: () => selectedItem(context, 0),
-            ),
-            SizedBox(height: 10.h),
-
-            buildMenuItem(
-
-              text: "People",
-              icon: Icons.people,
-              onClicked: () => selectedItem(context, 1),
-            ),
-            SizedBox(height: 10.h),
-
-            buildMenuItem(
-
-              text: "Favorites",
-              icon: Icons.favorite_outlined,
-              onClicked: () => selectedItem(context, 2),
-            ),
-            SizedBox(height: 10.h),
-
-            buildMenuItem(
-
-              text: "Workflow",
-              icon: Icons.workspaces_outlined,
-              onClicked: () => selectedItem(context, 3),
-            ),
-            SizedBox(height: 10.h),
-
-            buildMenuItem(
-
-              text: "Updates",
-              icon: Icons.update_rounded,
-              onClicked: () => selectedItem(context, 4),
-            ),
-
-            SizedBox(height: 20.h),
-
-            const Divider(color: Colors.white70, thickness: 0.8),
-
-            SizedBox(height: 20.h),
-
-            buildMenuItem(
-
-              text: "Share",
-              icon: Icons.share_outlined,
-              onClicked: () => selectedItem(context, 5),
-            ),
-            SizedBox(height: 10.h),
-
-            buildMenuItem(
-
-              text: "Settings",
-              icon: Icons.settings,
-              onClicked: () => selectedItem(context, 6),
-            ),
-            SizedBox(height: 10.h),
-
-            buildMenuItem(
-
-              text: "Logout",
-              icon: Icons.logout_outlined,
-              onClicked: () => selectedItem(context, 7),
-            ),
-          ],
+          child: ListView(
+        
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            children: [
+        
+              SizedBox(height: 50.h),
+        
+              buildMenuItem(
+        
+                text: "Home",
+                icon: Icons.home,
+                onClicked: () => selectedItem(context, 0),
+              ),
+              SizedBox(height: 10.h),
+        
+              buildMenuItem(
+        
+                text: "Profile",
+                icon: Icons.account_circle_rounded,
+                onClicked: () => selectedItem(context, 1),
+              ),
+              SizedBox(height: 10.h),
+        
+              buildMenuItem(
+        
+                text: "Favorites",
+                icon: Icons.favorite_outlined,
+                onClicked: () => selectedItem(context, 2),
+              ),
+              SizedBox(height: 10.h),
+        
+              buildMenuItem(
+        
+                text: "Workflow",
+                icon: Icons.workspaces_outlined,
+                onClicked: () => selectedItem(context, 3),
+              ),
+              SizedBox(height: 10.h),
+        
+              buildMenuItem(
+        
+                text: "Updates",
+                icon: Icons.update_rounded,
+                onClicked: () => selectedItem(context, 4),
+              ),
+        
+              SizedBox(height: 20.h),
+        
+              const Divider(color: Colors.white70, thickness: 0.8),
+        
+              SizedBox(height: 20.h),
+        
+              buildMenuItem(
+        
+                text: "Share",
+                icon: Icons.share_outlined,
+                onClicked: () => selectedItem(context, 5),
+              ),
+              SizedBox(height: 10.h),
+        
+              buildMenuItem(
+        
+                text: "Settings",
+                icon: Icons.settings,
+                onClicked: () => selectedItem(context, 6),
+              ),
+              SizedBox(height: 10.h),
+        
+              buildMenuItem(
+        
+                text: "Logout",
+                icon: Icons.logout_outlined,
+                onClicked: () => selectedItem(context, 7),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -116,17 +119,40 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   Future<void> selectedItem(BuildContext context, int index) async {
 
+    Navigator.pop(context);
+
     switch (index){
 
       case 0:
-        Navigator.pop(context);
         Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
         break;
-
+      case 1:
+        //Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfileScareen(userName: userName, userImage: userImage)));
+        break;
+      
+      case 2:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+        break;
+      
+      case 3:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+        break;
+      
+      case 4:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+        break;
+      
+      case 5:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+        break;
+      
+      case 6:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+        break;
+      
       case 7:
 
         await FirebaseAuth.instance.signOut();
-        Navigator.pop(context);
         Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
         break;
     }

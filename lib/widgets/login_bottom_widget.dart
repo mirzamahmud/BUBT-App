@@ -17,7 +17,7 @@ class LoginBottomWidget extends StatelessWidget {
 
         Text(
 
-          "New User?",
+          "Don't have an account?",
           style: GoogleFonts.nunito(color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.bold),
         ),
 

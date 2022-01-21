@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:bubt_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ImageUploadScetion extends StatefulWidget {
 
@@ -11,6 +15,93 @@ class ImageUploadScetion extends StatefulWidget {
 }
 
 class _ImageUploadScetionState extends State<ImageUploadScetion> {
+
+  final userImage = "assets/icons/user-profile.png";
+  
+  File? imageFile;
+
+  // pick up image
+  void _openGallery(BuildContext context) async{
+
+    PickedFile? pickedFile = await ImagePicker().getImage(
+
+      source: ImageSource.gallery,
+      maxHeight: 120.h,
+      maxWidth: 120.w
+    );
+
+    if(pickedFile != null)
+    {
+      setState(() {
+
+        imageFile = File(pickedFile.path);
+      });
+    }
+    
+
+    Navigator.pop(context);
+  }
+
+  void _openCamera(BuildContext context)  async{
+
+    PickedFile? pickedFile = await ImagePicker().getImage(
+
+      source: ImageSource.camera,
+      maxHeight: 120.h,
+      maxWidth: 120.w
+    );
+    if(pickedFile != null)
+    {
+      setState(() {
+
+        imageFile = File(pickedFile.path);
+      });
+    }
+    Navigator.pop(context);
+  }
+
+  // upload image to firbase storage
+
+  // alert dialog
+  Future<void>_showChoiceDialog(BuildContext context)
+  {
+    return showDialog(context: context, builder: (BuildContext context){
+
+      return AlertDialog(
+
+        title: Text("Choose option", style: GoogleFonts.nunito(color: Colors.blue, fontWeight: FontWeight.w800)),
+        content: SingleChildScrollView(
+        child: ListBody(
+          children: [
+
+            const Divider(height: 1, color: Colors.blue),
+            
+            ListTile(
+
+              onTap: (){
+                _openGallery(context);
+              },
+              title: Text("Gallery", style: GoogleFonts.nunito(color: Colors.black)),
+              leading: const Icon(Icons.account_box,color: Colors.black),
+            ),
+
+            const Divider(height: 1,color: Colors.blue,),
+
+            ListTile(
+
+              onTap: (){
+
+                _openCamera(context);
+              },
+              title: Text("Camera", style: GoogleFonts.nunito(color: Colors.black)),
+              leading: const Icon(Icons.camera,color: Colors.black),
+            ),
+          ],
+        ),
+      ),);
+    });
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +122,22 @@ class _ImageUploadScetionState extends State<ImageUploadScetion> {
               CircleAvatar(
 
                 radius: 70.0,
-                backgroundColor: Colors.green[300],
+                backgroundColor: Colors.green[400],
                 child: CircleAvatar(
-              
+
                   radius: 65.0,
-                  child: Image.asset("assets/icons/user-profile.png", height: 150.h, width: 150.w),
+                  backgroundImage: imageFile == null ? AssetImage(userImage) : FileImage(imageFile!) as ImageProvider
                 ),
               ),
 
               IconButton(
 
-                onPressed: (){},
+                onPressed: (){
+
+                  _showChoiceDialog(context);
+                },
                 iconSize: 25.0,
-                icon: Icon(Icons.add_a_photo_rounded, color: Colors.green[400]),
+                icon: Icon(Icons.add_a_photo_rounded, color: Colors.redAccent[700]),
               ),
             ],
           ),
@@ -55,7 +149,10 @@ class _ImageUploadScetionState extends State<ImageUploadScetion> {
             height: 40.h, width: 200.w,
             child: MaterialButton(
 
-              onPressed: (){},
+              onPressed: (){
+
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+              },
               elevation: 0,
               color: Colors.orangeAccent,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),

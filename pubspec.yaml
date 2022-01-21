@@ -45,6 +45,7 @@ dependencies:
   cloud_firestore: ^3.1.6
   location: ^4.3.0
   location_web: ^3.1.1
+  firebase_analytics: ^9.0.5
 
 dev_dependencies:
   flutter_test:

@@ -138,7 +138,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                     borderRadius: BorderRadius.circular(20.0),
                     borderSide: const BorderSide(color: Colors.black)
                   ),
-                  icon: const Icon(Icons.email_rounded, color: Colors.black, size: 25.0),
+                  icon: const Icon(Icons.account_circle_rounded, color: Colors.black, size: 25.0),
                   hintText: "Name"
                 ),
 
@@ -184,7 +184,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                     borderRadius: BorderRadius.circular(20.0),
                     borderSide: const BorderSide(color: Colors.black)
                   ),
-                  icon: const Icon(Icons.email_rounded, color: Colors.black, size: 25.0),
+                  icon: const Icon(Icons.perm_contact_calendar_rounded, color: Colors.black, size: 25.0),
                   hintText: "ID"
                 ),
 
@@ -229,7 +229,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                     borderRadius: BorderRadius.circular(20.0),
                     borderSide: const BorderSide(color: Colors.black)
                   ),
-                  icon: const Icon(Icons.email_rounded, color: Colors.black, size: 25.0),
+                  icon: const Icon(Icons.business, color: Colors.black, size: 25.0),
                   hintText: "Department"
                 ),
 

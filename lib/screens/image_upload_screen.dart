@@ -1,9 +1,7 @@
-import 'package:bubt_app/screens/home_screen.dart';
 import 'package:bubt_app/widgets/image_upload_section.dart';
 import 'package:bubt_app/widgets/image_upload_top_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ImageUploadScreen extends StatefulWidget {
 
@@ -36,40 +34,11 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
 
                   const ImageUploadTopWidget(),
 
-                  SizedBox(height: 30.h),
+                  SizedBox(height: 50.h),
 
                   const ImageUploadScetion(),
 
-                  SizedBox(height: 50.h),
-
-                  Row(
-
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-
-                      TextButton(
-
-                        onPressed: (){
-
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
-                        },
-                        child: Row(
-
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-
-                            Text(
-
-                              "Skip", textAlign: TextAlign.center,
-                              style: GoogleFonts.nunito(color: Colors.blueAccent, fontSize: 16.sp),
-                            ),
-
-                            const Icon(Icons.arrow_forward_ios_rounded, color: Colors.blueAccent, size: 20.0)
-                          ],
-                        ),
-                      )
-                    ],
-                  )
+                  SizedBox(height: 30.h),
                 ],
               ),
             ),

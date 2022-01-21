@@ -15,10 +15,10 @@ void main() async
 
     SystemUiOverlayStyle(
 
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.grey[300],
-      systemNavigationBarIconBrightness: Brightness.dark,
+      statusBarColor: Colors.blue[800],
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.blue[200],
+      systemNavigationBarIconBrightness: Brightness.light,
     )
   );
 }
@@ -40,7 +40,8 @@ class BUBT extends StatelessWidget {
         theme: ThemeData(
 
           primaryColor: Colors.blue[700],
-          scaffoldBackgroundColor: Colors.grey[300]
+          scaffoldBackgroundColor: Colors.grey[300],
+          secondaryHeaderColor: Colors.blue[900]
         ),
 
         home: const SplashScreen(),
