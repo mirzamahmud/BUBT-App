@@ -17,8 +17,7 @@ void main() async
 
       statusBarColor: Colors.blue[800],
       statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Colors.blue[200],
-      systemNavigationBarIconBrightness: Brightness.light,
+      systemNavigationBarIconBrightness: Brightness.dark,
     )
   );
 }

@@ -29,10 +29,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
         appBar: AppBar(
 
-          iconTheme: const IconThemeData(color: Colors.black, size: 30.0),
-          backgroundColor: Colors.transparent,
+          iconTheme: const IconThemeData(color: Colors.white, size: 30.0),
+          backgroundColor: Colors.blue[800],
           elevation: 0,
-          title: Text("Home Page", style: GoogleFonts.nunito(color: Colors.black, fontWeight: FontWeight.w700)),
+          title: Text("Home Page", style: GoogleFonts.nunito(color: Colors.white, fontWeight: FontWeight.w700)),
         ),
 
         body: Container(
