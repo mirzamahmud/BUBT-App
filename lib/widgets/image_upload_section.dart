@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bubt_app/screens/home_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,48 +20,55 @@ class _ImageUploadScetionState extends State<ImageUploadScetion> {
   final userImage = "assets/icons/user-profile.png";
   
   File? imageFile;
+  final imagePicker = ImagePicker();
+  String? downloadUrl;
 
   // pick up image
   void _openGallery(BuildContext context) async{
 
-    PickedFile? pickedFile = await ImagePicker().getImage(
+    final pickedFile = await ImagePicker().pickImage(
 
       source: ImageSource.gallery,
       maxHeight: 120.h,
       maxWidth: 120.w
     );
-
-    if(pickedFile != null)
-    {
-      setState(() {
-
-        imageFile = File(pickedFile.path);
-      });
-    }
     
+    setState(() {
 
+        if(pickedFile != null)
+        {
+          imageFile = File(pickedFile.path);
+        }
+    });
     Navigator.pop(context);
   }
 
   void _openCamera(BuildContext context)  async{
 
-    PickedFile? pickedFile = await ImagePicker().getImage(
+    final pickedFile = await ImagePicker().pickImage(
 
       source: ImageSource.camera,
       maxHeight: 120.h,
       maxWidth: 120.w
     );
-    if(pickedFile != null)
-    {
-      setState(() {
+    setState(() {
 
-        imageFile = File(pickedFile.path);
-      });
-    }
+        if(pickedFile != null)
+        {
+          imageFile = File(pickedFile.path);
+        }
+    });
     Navigator.pop(context);
   }
 
   // upload image to firbase storage
+  Future uploadImage() async{
+
+    Reference ref = FirebaseStorage.instance.ref().child("images");
+    await ref.putFile(imageFile!);
+
+    downloadUrl = await ref.getDownloadURL();
+  }
 
   // alert dialog
   Future<void>_showChoiceDialog(BuildContext context)
@@ -121,11 +129,11 @@ class _ImageUploadScetionState extends State<ImageUploadScetion> {
 
               CircleAvatar(
 
-                radius: 70.0,
+                radius: 100.0,
                 backgroundColor: Colors.green[400],
                 child: CircleAvatar(
 
-                  radius: 65.0,
+                  radius: 90.0,
                   backgroundImage: imageFile == null ? AssetImage(userImage) : FileImage(imageFile!) as ImageProvider
                 ),
               ),
@@ -151,7 +159,8 @@ class _ImageUploadScetionState extends State<ImageUploadScetion> {
 
               onPressed: (){
 
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                uploadImage();
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));  
               },
               elevation: 0,
               color: Colors.orangeAccent,

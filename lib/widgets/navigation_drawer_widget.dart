@@ -1,13 +1,38 @@
+import 'package:bubt_app/models/user_model.dart';
 import 'package:bubt_app/screens/home_screen.dart';
 import 'package:bubt_app/screens/start_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class NavigationDrawerWidget extends StatelessWidget {
+class NavigationDrawerWidget extends StatefulWidget {
 
   const NavigationDrawerWidget({Key? key}) : super(key: key);
+
+  @override
+  State<NavigationDrawerWidget> createState() => _NavigationDrawerWidgetState();
+}
+
+class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
+  User? user = FirebaseAuth.instance.currentUser;
+
+  UserModel loggedInUser = UserModel();
+
+  @override
+  void initState()
+  {
+    super.initState();
+
+    FirebaseFirestore.instance.collection("users").doc(user!.uid).get()
+      .then((value) => {
+
+        loggedInUser = UserModel.fromMap(value.data()),
+
+        setState(() {})
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +47,28 @@ class NavigationDrawerWidget extends StatelessWidget {
 
           child: ListView(
         
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
             children: [
-        
-              SizedBox(height: 50.h),
+              
+              UserAccountsDrawerHeader(
+
+                decoration: BoxDecoration(
+
+                  color: Colors.blue[700],
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                accountName: Text("${loggedInUser.name}", style: GoogleFonts.nunito(fontSize: 16.sp, fontWeight: FontWeight.bold)),
+                accountEmail: Text("${loggedInUser.email}", style: GoogleFonts.nunito(fontSize: 12.sp, fontWeight: FontWeight.normal)),
+                currentAccountPicture: const CircleAvatar(
+
+                  radius: 40.0, backgroundColor: Colors.amber,
+                  child: CircleAvatar(
+                
+                    radius: 30.0, backgroundImage: AssetImage("assets/icons/user-profile.png"),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.h),
         
               buildMenuItem(
         
@@ -66,11 +109,11 @@ class NavigationDrawerWidget extends StatelessWidget {
                 onClicked: () => selectedItem(context, 4),
               ),
         
-              SizedBox(height: 20.h),
+              SizedBox(height: 10.h),
         
-              const Divider(color: Colors.white70, thickness: 0.8),
+              const Divider(color: Colors.white70, thickness: 1),
         
-              SizedBox(height: 20.h),
+              SizedBox(height: 10.h),
         
               buildMenuItem(
         
