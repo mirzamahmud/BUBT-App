@@ -1,4 +1,3 @@
-import 'package:bubt_app/screens/image_upload_screen.dart';
 import 'package:bubt_app/widgets/login_bottom_widget.dart';
 import 'package:bubt_app/widgets/login_top_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
 
@@ -49,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
           gravity: ToastGravity.BOTTOM
         ),
 
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const ImageUploadScreen()))
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomeScreen()))
       }).catchError((e){
 
         Fluttertoast.showToast(

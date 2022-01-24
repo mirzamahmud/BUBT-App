@@ -1,5 +1,5 @@
 import 'package:bubt_app/models/user_model.dart';
-import 'package:bubt_app/screens/image_upload_screen.dart';
+import 'package:bubt_app/screens/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +92,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
 
     Navigator.pushAndRemoveUntil(
       context, 
-      MaterialPageRoute(builder: (context) => const ImageUploadScreen()), 
+      MaterialPageRoute(builder: (context) => const HomeScreen()), 
       (route) => false
     );
   }
@@ -229,7 +229,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                     borderRadius: BorderRadius.circular(20.0),
                     borderSide: const BorderSide(color: Colors.black)
                   ),
-                  icon: const Icon(Icons.business, color: Colors.black, size: 25.0),
+                  icon: const Icon(Icons.business_rounded, color: Colors.black, size: 25.0),
                   hintText: "Department"
                 ),
 

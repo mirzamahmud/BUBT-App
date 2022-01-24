@@ -45,9 +45,9 @@ class _HomeScreenTopWidgetState extends State<HomeScreenTopWidget> {
         SizedBox(height: 10.h),
 
         Text(
-
+        
           "Welcome, ${loggedInUser.name}",
-          style: GoogleFonts.amita(color: Colors.black, fontSize: 24.sp, fontWeight: FontWeight.w800),
+          style: GoogleFonts.amita(color: Colors.black, fontSize: 20.sp, fontWeight: FontWeight.w800),
         ),
 
         Text(
