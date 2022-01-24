@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bubt_app/screens/home_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +10,10 @@ import 'package:image_picker/image_picker.dart';
 
 class ImageUploadScetion extends StatefulWidget {
 
-  const ImageUploadScetion({ Key? key }) : super(key: key);
+  // create image folder for particular user
+  String? userId;
+
+  ImageUploadScetion({ Key? key, this.userId }) : super(key: key);
 
   @override
   _ImageUploadScetionState createState() => _ImageUploadScetionState();
@@ -64,10 +68,27 @@ class _ImageUploadScetionState extends State<ImageUploadScetion> {
   // upload image to firbase storage
   Future uploadImage() async{
 
-    Reference ref = FirebaseStorage.instance.ref().child("images");
+    final postID = DateTime.now().microsecondsSinceEpoch.toString();
+
+    Reference ref = FirebaseStorage.instance.
+      ref().
+      child("${widget.userId}/images").
+      child("post_$postID");
+
     await ref.putFile(imageFile!);
 
     downloadUrl = await ref.getDownloadURL();
+
+    // uploading cloud firestore database
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    await firebaseFirestore.collection("users")
+      .doc(widget.userId).
+      collection("images").
+      add({"downloadUrl": downloadUrl}).whenComplete(() => 
+      
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()))
+      );
   }
 
   // alert dialog
@@ -160,7 +181,6 @@ class _ImageUploadScetionState extends State<ImageUploadScetion> {
               onPressed: (){
 
                 uploadImage();
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));  
               },
               elevation: 0,
               color: Colors.orangeAccent,

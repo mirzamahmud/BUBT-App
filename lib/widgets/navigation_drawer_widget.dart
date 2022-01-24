@@ -1,6 +1,8 @@
 import 'package:bubt_app/models/user_model.dart';
 import 'package:bubt_app/screens/home_screen.dart';
+import 'package:bubt_app/screens/image_upload_screen.dart';
 import 'package:bubt_app/screens/start_screen.dart';
+import 'package:bubt_app/screens/user_profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,7 @@ class NavigationDrawerWidget extends StatefulWidget {
 }
 
 class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
+  
   User? user = FirebaseAuth.instance.currentUser;
 
   UserModel loggedInUser = UserModel();
@@ -59,12 +62,19 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                 ),
                 accountName: Text("${loggedInUser.name}", style: GoogleFonts.nunito(fontSize: 16.sp, fontWeight: FontWeight.bold)),
                 accountEmail: Text("${loggedInUser.email}", style: GoogleFonts.nunito(fontSize: 12.sp, fontWeight: FontWeight.normal)),
-                currentAccountPicture: const CircleAvatar(
+                currentAccountPicture: InkWell(
 
-                  radius: 40.0, backgroundColor: Colors.amber,
-                  child: CircleAvatar(
+                  onTap: (){
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ImageUploadScreen()));
+                  },
+                  child: const CircleAvatar(
                 
-                    radius: 30.0, backgroundImage: AssetImage("assets/icons/user-profile.png"),
+                    radius: 40.0, backgroundColor: Colors.amber,
+                    child: CircleAvatar(
+                  
+                      radius: 30.0, backgroundImage: AssetImage("assets/icons/user-profile.png"),
+                    ),
                   ),
                 ),
               ),
@@ -170,7 +180,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
         Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
         break;
       case 1:
-        //Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfileScareen(userName: userName, userImage: userImage)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const UserProfileScareen()));
         break;
       
       case 2:
